@@ -2,6 +2,12 @@ from dynamicNode import DynamicNode
 import dynamicNode
 reload(dynamicNode)
 import pydot
+###################
+#DynamicNode class got lost, but you should be able still to understand the overall code,
+# for what I can recall the node was nothing more than a data holder , no special method
+#added to it, so by the code you should be able to reconstruct it if needed, or I will do if
+#i will get back on this topic
+####################
 
 class WCUFTree(object):
     '''
