@@ -1,13 +1,11 @@
 import math
 import sys
+import json
 
 from maya import cmds
-from maya.api import OpenMaya
 
+class BaseAnim(object):
 
-
-class MayaAnimCurve(object):
-    #matrix bases with pascal triangle degree 3
     M1 = [-1.0,3.0,-3.0,1.0]
     M2 = [3.0,-6.0,3.0,0.0]
     M3 = [-3.0,3.0,0.0,0.0]
@@ -18,61 +16,28 @@ class MayaAnimCurve(object):
     MM2 =[-2,2,0]
     MM3 =[1,0,0]
 
-    def __init__(self, node, attribute):
-
-        self.node = node 
-        self.attribute = attribute 
-        self.anim_curve_node = self.__get_anim_crv() 
-
-        if not self.anim_curve_node:
-            raise RuntimeError("MayaAnimCurve: the attribute {a} is not animated".format(
-                a= self.node + "." + self.attribute))
-
     @property
     def keys(self):
-        return cmds.keyframe(self.node, attribute= self.attribute, query=True,timeChange=True)
+        raise NotImplementedError
 
     @property
     def key_count(self):
-        return cmds.keyframe(self.node, attribute= self.attribute, query=True,keyframeCount=True)
+        raise NotImplementedError
 
-    @property
-    def conversion_factor(self):
-        """
-        This function returns the conversion factor for the X tangents
-        @returns: float
-        """
-        time = OpenMaya.MTime(1.0,OpenMaya.MTime.kSeconds)
-        return time.asUnits(OpenMaya.MTime.uiUnit())
-
-    def __get_anim_crv(self):
+    def get_frame_values(self, frame):
+        raise NotImplementedError
         
-        node_obj = get_MObject(self.node)
-        dep_data = OpenMaya.MFnDependencyNode(node_obj)
-        
-        #listing the plug connection
-        plug = dep_data.findPlug(self.attribute,0)
-        nodes = plug.connectedTo(True, False)
-        if not nodes:
-            return    
-        #if we have a connection we grab the first one and check if it is 
-        #and animation curve
-        node = nodes[0].node()
-        if (node.hasFn(OpenMaya.MFn.kAnimCurve)):
-            return OpenMaya.MFnDependencyNode(node).name() 
-        
-
     def get_frame_idx(self,frame):
-        
-        self.anim_crv = self.__get_anim_crv() +  ".keyTimeValue"
-        keys = [cmds.getAttr(self.anim_crv + "[{i}].keyTime".format(i=i)) 
-                for i in cmds.getAttr(self.anim_crv ,mi=1)]
-        
         try:
-            return keys.index(frame)
+            return self.keys.index(frame)
         except ValueError,e:
-            #print "MayaAnimCurve: the animation curve does not have a keyframe at the wanted frame,returning -1"
             return -1
+    
+    def get_tangent_points(self, frame):
+
+        pair =self.get_frame_pair(frame) 
+        idx = self.get_frame_idx(int(pair[0]))
+        return self.data_file[idx]["points"] 
 
     def get_frame_pair(self,frame):
         """
@@ -112,6 +77,135 @@ class MayaAnimCurve(object):
             
             #if we get here it means our keys is after the last keyframe so we cannot evaluate 
             return sys.maxint
+
+    def evaluate_at_param(self,u,frame):
+        """
+        This function evaluates the curve at param, the frames defines which 
+        piece-wise of the curve to get
+        @param u: float, the parameter at which evaluate the curve, between 0-1
+        @param frame: float, this frame will define which pair of keyframe will be used
+                      to evaluate the curve, so the frame doesnt have to be exact, just
+                      need to be in the range you wish to evaluate, like if you want to 
+                      evlute in the range 5,10, any number satisying the property 5<x<10
+                      will suffice.
+        @return: 2D point along the anim curve, the x will be the frame , the y the value at 
+                 that frame
+        """
+        t = [u**3, u**2,u,1.0]
+        #t = [u]*4
+
+        basis = [ self.__dot(t,self.M1),
+                  self.__dot(t,self.M2),
+                  self.__dot(t,self.M3),
+                  self.__dot(t,self.M4)]
+        #just to make the code a bit more readable
+        p1,p2,p3,p4 = self.get_tangent_points(frame)
+
+        finalX =   ((basis[0] * p1[0]) +
+                    (basis[1] * p2[0]) +
+                    (basis[2] * p3[0]) +
+                    (basis[3] * p4[0]) )
+        finalY =   ((basis[0] * p1[1]) +
+                    (basis[1] * p2[1]) +
+                    (basis[2] * p3[1]) +
+                    (basis[3] * p4[1]) )
+
+        return finalX, finalY
+
+    def __dot (self,v1,v2):
+        """
+        This function performs a dot product
+        @param v1: vector of floats
+        @param v2: vector of floats
+        @returns :float
+        """
+        return sum([a*b for a,b in zip(v1,v2)])
+class AnimCurve(BaseAnim):
+
+    def __init__(self, path):
+        BaseAnim.__init__(self)
+        current_file = open(path)
+        self.data_file = json.load(current_file)
+        current_file.close()
+         
+    @property
+    def keys(self):
+        return [k["start"] for k in self.data_file]  + [self.data_file[-1]["end"]]
+
+    @property
+    def key_count(self):
+        return len(self.data_file ) +1 
+
+    def get_frame_values(self, frame):
+        
+        idx = self.get_frame_idx(frame)
+        if frame == -1:
+            raise ValueError ("get_frame_value : frame {f} not found".format(f=frame))
+        
+        if idx == (self.key_count-1):
+            return self.data_file[-1]["points"][-1]
+        else:
+            return self.data_file[idx]["points"][0]
+        
+    def evaluate_at_frame(self,frame):
+
+        points = self.get_tangent_points(frame)
+        frame = float(frame)
+        minv= 0.0
+        maxv= 1.0
+        avg=   (maxv+minv)/2.0
+        x ,y =evaluate(avg,points)
+
+        counter =0
+        delta = (x-frame)
+        tollerance = 0.00001
+        
+        while(abs(delta)> tollerance):
+            if delta > 0:
+                maxv=   avg 
+            else:
+                minv=   avg 
+            
+            avg=   (maxv+minv)/2.0
+
+            x ,y =evaluate(avg,points)
+            delta = x-frame
+
+            if counter >30:
+                return y 
+
+            counter +=1
+        return frame,y 
+
+
+class MayaAnimCurve(BaseAnim):
+    #matrix bases with pascal triangle degree 3
+    def __init__(self, node, attribute):
+        BaseAnim.__init__(self)
+
+        self.node = node 
+        self.attribute = attribute 
+
+    @property
+    def keys(self):
+        return cmds.keyframe(self.node, attribute= self.attribute, query=True,timeChange=True)
+
+    @property
+    def key_count(self):
+        return cmds.keyframe(self.node, attribute= self.attribute, query=True,keyframeCount=True)
+
+    @property
+    def conversion_factor(self):
+        """
+        This function returns the conversion factor for the X tangents
+        @returns: float
+        """
+        time = OpenMaya.MTime(1.0,OpenMaya.MTime.kSeconds)
+        return time.asUnits(OpenMaya.MTime.uiUnit())
+    
+    def get_frame_values(self, frame):
+        return cmds.keyframe(self.node,attribute=self.attribute, time=(frame,frame), 
+                query=True, valueChange=True, timeChange=True) 
 
     def get_tangent_points(self, frame):
         """
@@ -169,39 +263,6 @@ class MayaAnimCurve(object):
 
         return [p1,p2,p3,p4]
 
-    def evaluate_at_param(self,u,frame):
-        """
-        This function evaluates the curve at param, the frames defines which 
-        piece-wise of the curve to get
-        @param u: float, the parameter at which evaluate the curve, between 0-1
-        @param frame: float, this frame will define which pair of keyframe will be used
-                      to evaluate the curve, so the frame doesnt have to be exact, just
-                      need to be in the range you wish to evaluate, like if you want to 
-                      evlute in the range 5,10, any number satisying the property 5<x<10
-                      will suffice.
-        @return: 2D point along the anim curve, the x will be the frame , the y the value at 
-                 that frame
-        """
-        t = [u**3, u**2,u,1.0]
-        #t = [u]*4
-
-        basis = [ self.__dot(t,self.M1),
-                  self.__dot(t,self.M2),
-                  self.__dot(t,self.M3),
-                  self.__dot(t,self.M4)]
-        #just to make the code a bit more readable
-        p1,p2,p3,p4 = self.get_tangent_points(frame)
-
-        finalX =   ((basis[0] * p1[0]) +
-                    (basis[1] * p2[0]) +
-                    (basis[2] * p3[0]) +
-                    (basis[3] * p4[0]) )
-        finalY =   ((basis[0] * p1[1]) +
-                    (basis[1] * p2[1]) +
-                    (basis[2] * p3[1]) +
-                    (basis[3] * p4[1]) )
-
-        return finalX, finalY
 
     def  evaluate_at_param2(self,u,frame):
         """
@@ -226,6 +287,35 @@ class MayaAnimCurve(object):
         return w[0][0]*mu3 + 3*w[1][0]*mu2*u + 3*w[2][0]*mu*u2 + w[3][0]*u3,\
               w[0][1]*mu3 + 3*w[1][1]*mu2*u + 3*w[2][1]*mu*u2 + w[3][1]*u3
 
+    def evaluate_at_frame(self,frame):
+
+        points = self.get_tangent_points(frame)
+        frame = float(frame)
+        minv= 0.0
+        maxv= 1.0
+        avg=   (maxv+minv)/2.0
+        x ,y =evaluate(avg,points)
+
+        counter =0
+        delta = (x-frame)
+        tollerance = 0.00001
+        
+        while(abs(delta)> tollerance):
+            if delta > 0:
+                maxv=   avg 
+            else:
+                minv=   avg 
+            
+            avg=   (maxv+minv)/2.0
+
+            x ,y =evaluate(avg,points)
+            delta = x-frame
+
+            if counter >30:
+                return y 
+
+            counter +=1
+        return frame,y 
 
     def evaluate_derivative(self,u, frame):
         """
@@ -286,34 +376,27 @@ class MayaAnimCurve(object):
 
         return finalX, finalY
 
-    def __dot (self,v1,v2):
-        """
-        This function performs a dot product
-        @param v1: vector of floats
-        @param v2: vector of floats
-        @returns :float
-        """
-        return sum([a*b for a,b in zip(v1,v2)])
 
-def get_MObject( object_name):
-    '''
-    @brief from string to MObject
-    This function let you get an MObject from a string representing the object name
-    @param object_name:  string or string[], the name of the object you want to work on  
-    @returns: MObject or MObject[], based on whether the input was a list or not
-    '''
+    def serialize(self, path):
+        
+        #to serialize we are going to save single keys, for each key xy coords and tangents 
+        data = [] 
+        keys = self.keys
     
-    if isinstance(object_name, list)==True:
-        oNodeList=[]
-        for o in object_name:
-            selectionList = OpenMaya.MSelectionList()
-            selectionList.add(o)
-            oNode = OpenMaya.MObject()
-            selectionList.getDependNode(0, oNode)
-            oNodeList.append(oNode)
-        return oNodeList
-    else:
-        selectionList = OpenMaya.MSelectionList()
-        selectionList.add(object_name)
-        return selectionList.getDependNode(0)
+        size = len(keys)
+        for idx, key in enumerate(keys[:-1]):
+            piece_data = {}
+            start = key
+            end = keys[idx+1]
+            pts = self.get_tangent_points((start + end) /2)    
+            piece_data["points"] = pts
+            piece_data["start"] = start
+            piece_data["end"] =end 
+            data.append(piece_data)
+
+        to_be_saved = json.dumps(data, sort_keys=True, \
+                                    ensure_ascii=True, indent=2)
+        current_file = open(path, 'w')
+        current_file.write(to_be_saved)
+        current_file.close()
 
