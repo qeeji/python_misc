@@ -112,6 +112,87 @@ class BaseAnim(object):
 
         return finalX, finalY
 
+    def  evaluate_at_param2(self,u,frame):
+        """
+        This function evaluates the curve by using the polinomial approach rather than the
+        matrix approach, should yield the same value as evaluate_at_param2.
+        @param u: float, the parameter at which evaluate the curve, between 0-1
+        @param frame: float, this frame will define which pair of keyframe will be used
+                      to evaluate the curve, so the frame doesnt have to be exact, just
+                      need to be in the range you wish to evaluate, like if you want to 
+                      evlute in the range 5,10, any number satisying the property 5<x<10
+                      will suffice.
+        @return: 2D point along the anim curve, the x will be the frame , the y the value at 
+                 that frame
+        """
+        
+        w = self.get_tangent_points(frame)  
+        u2 = u * u
+        u3 = u2 * u
+        mu = 1-u
+        mu2 = mu * mu
+        mu3 = mu2 * mu
+        return w[0][0]*mu3 + 3*w[1][0]*mu2*u + 3*w[2][0]*mu*u2 + w[3][0]*u3,\
+              w[0][1]*mu3 + 3*w[1][1]*mu2*u + 3*w[2][1]*mu*u2 + w[3][1]*u3
+
+    def evaluate_derivative(self,u, frame):
+        """
+        This function evaluates the derivative at the given parameter for the wanted
+        interval. It uses the matrix approach.
+        @param u: float, the parameter at which evaluate the derivative, between 0-1.
+        @param frame: float, this frame will define which pair of keyframe will be used
+                      to evaluate the curve, so the frame doesnt have to be exact, just
+                      need to be in the range you wish to evaluate, like if you want to 
+                      evlute in the range 5,10, any number satisying the property 5<x<10
+                      will suffice.
+        @return: 2D point along the anim curve, the x will be the frame , the y the value at 
+                 that frame
+        """
+        
+        t = [ u**2,u,1.0]
+        
+        p1,p2,p3,p4 = self.get_tangent_points(frame);
+        pp1 = [p2[0]-p1[0],p2[1]-p1[1]]
+        pp2 = [p3[0]-p2[0],p3[1]-p2[1]]
+        pp3 = [p4[0]-p3[0],p4[1]-p3[1]]
+
+        basis = [ self.__dot(t,self.MM1),
+                  self.__dot(t,self.MM2),
+                  self.__dot(t,self.MM3)]
+
+        finalX =  ((basis[0] * pp1[0]) +
+                    (basis[1] * pp2[0]) +
+                    (basis[2] * pp3[0]) )
+        finalY =  ((basis[0] * pp1[1]) +
+                    (basis[1] * pp2[1]) +
+                    (basis[2] * pp3[1]) )
+        return finalX, finalY
+
+    def evaluate_derivative2(self,u, frame):
+        """
+        This is an alternate way to evaluate the derivative, in which we use the 
+        evaluation of the polynomial we got by directly deriving the bezier degree 3 formula.
+        This method should yield the same result as evaluate_derivative()
+        @param u: float, the parameter at which evaluate the derivative, between 0-1.
+        @param frame: float, this frame will define which pair of keyframe will be used
+                      to evaluate the curve, so the frame doesnt have to be exact, just
+                      need to be in the range you wish to evaluate, like if you want to 
+                      evlute in the range 5,10, any number satisying the property 5<x<10
+                      will suffice.
+        @return: 2D point along the anim curve, the x will be the frame , the y the value at 
+                 that frame
+        """
+        t = [ u**2,u,1.0]
+        
+        p1,p2,p3,p4 = self.get_tangent_points(frame);
+        pp1 = [p2[0]-p1[0],p2[1]-p1[1]]
+        pp2 = [p3[0]-p2[0],p3[1]-p2[1]]
+        pp3 = [p4[0]-p3[0],p4[1]-p3[1]]
+        
+        finalX =1.0*pp1[0]*((1.0-u)**2) + 2*pp2[0]*(1-u)*u + 2*pp3[0]*(u**2)
+        finalY =1.0*pp1[1]*((1.0-u)**2) + 2*pp2[1]*(1-u)*u + 1*pp3[1]*(u**2)
+
+        return finalX, finalY
     def __dot (self,v1,v2):
         """
         This function performs a dot product
@@ -120,6 +201,8 @@ class BaseAnim(object):
         @returns :float
         """
         return sum([a*b for a,b in zip(v1,v2)])
+
+
 class AnimCurve(BaseAnim):
 
     def __init__(self, path):
@@ -147,37 +230,6 @@ class AnimCurve(BaseAnim):
         else:
             return self.data_file[idx]["points"][0]
         
-    def evaluate_at_frame(self,frame):
-
-        points = self.get_tangent_points(frame)
-        frame = float(frame)
-        minv= 0.0
-        maxv= 1.0
-        avg=   (maxv+minv)/2.0
-        x ,y =evaluate(avg,points)
-
-        counter =0
-        delta = (x-frame)
-        tollerance = 0.00001
-        
-        while(abs(delta)> tollerance):
-            if delta > 0:
-                maxv=   avg 
-            else:
-                minv=   avg 
-            
-            avg=   (maxv+minv)/2.0
-
-            x ,y =evaluate(avg,points)
-            delta = x-frame
-
-            if counter >30:
-                return y 
-
-            counter +=1
-        return frame,y 
-
-
 class MayaAnimCurve(BaseAnim):
     #matrix bases with pascal triangle degree 3
     def __init__(self, node, attribute):
@@ -264,117 +316,6 @@ class MayaAnimCurve(BaseAnim):
         return [p1,p2,p3,p4]
 
 
-    def  evaluate_at_param2(self,u,frame):
-        """
-        This function evaluates the curve by using the polinomial approach rather than the
-        matrix approach, should yield the same value as evaluate_at_param2.
-        @param u: float, the parameter at which evaluate the curve, between 0-1
-        @param frame: float, this frame will define which pair of keyframe will be used
-                      to evaluate the curve, so the frame doesnt have to be exact, just
-                      need to be in the range you wish to evaluate, like if you want to 
-                      evlute in the range 5,10, any number satisying the property 5<x<10
-                      will suffice.
-        @return: 2D point along the anim curve, the x will be the frame , the y the value at 
-                 that frame
-        """
-        
-        w = self.get_tangent_points(frame)  
-        u2 = u * u
-        u3 = u2 * u
-        mu = 1-u
-        mu2 = mu * mu
-        mu3 = mu2 * mu
-        return w[0][0]*mu3 + 3*w[1][0]*mu2*u + 3*w[2][0]*mu*u2 + w[3][0]*u3,\
-              w[0][1]*mu3 + 3*w[1][1]*mu2*u + 3*w[2][1]*mu*u2 + w[3][1]*u3
-
-    def evaluate_at_frame(self,frame):
-
-        points = self.get_tangent_points(frame)
-        frame = float(frame)
-        minv= 0.0
-        maxv= 1.0
-        avg=   (maxv+minv)/2.0
-        x ,y =evaluate(avg,points)
-
-        counter =0
-        delta = (x-frame)
-        tollerance = 0.00001
-        
-        while(abs(delta)> tollerance):
-            if delta > 0:
-                maxv=   avg 
-            else:
-                minv=   avg 
-            
-            avg=   (maxv+minv)/2.0
-
-            x ,y =evaluate(avg,points)
-            delta = x-frame
-
-            if counter >30:
-                return y 
-
-            counter +=1
-        return frame,y 
-
-    def evaluate_derivative(self,u, frame):
-        """
-        This function evaluates the derivative at the given parameter for the wanted
-        interval. It uses the matrix approach.
-        @param u: float, the parameter at which evaluate the derivative, between 0-1.
-        @param frame: float, this frame will define which pair of keyframe will be used
-                      to evaluate the curve, so the frame doesnt have to be exact, just
-                      need to be in the range you wish to evaluate, like if you want to 
-                      evlute in the range 5,10, any number satisying the property 5<x<10
-                      will suffice.
-        @return: 2D point along the anim curve, the x will be the frame , the y the value at 
-                 that frame
-        """
-        
-        t = [ u**2,u,1.0]
-        
-        p1,p2,p3,p4 = self.get_tangent_points(frame);
-        pp1 = [p2[0]-p1[0],p2[1]-p1[1]]
-        pp2 = [p3[0]-p2[0],p3[1]-p2[1]]
-        pp3 = [p4[0]-p3[0],p4[1]-p3[1]]
-
-        basis = [ self.__dot(t,self.MM1),
-                  self.__dot(t,self.MM2),
-                  self.__dot(t,self.MM3)]
-
-        finalX =  ((basis[0] * pp1[0]) +
-                    (basis[1] * pp2[0]) +
-                    (basis[2] * pp3[0]) )
-        finalY =  ((basis[0] * pp1[1]) +
-                    (basis[1] * pp2[1]) +
-                    (basis[2] * pp3[1]) )
-        return finalX, finalY
-
-    def evaluate_derivative2(self,u, frame):
-        """
-        This is an alternate way to evaluate the derivative, in which we use the 
-        evaluation of the polynomial we got by directly deriving the bezier degree 3 formula.
-        This method should yield the same result as evaluate_derivative()
-        @param u: float, the parameter at which evaluate the derivative, between 0-1.
-        @param frame: float, this frame will define which pair of keyframe will be used
-                      to evaluate the curve, so the frame doesnt have to be exact, just
-                      need to be in the range you wish to evaluate, like if you want to 
-                      evlute in the range 5,10, any number satisying the property 5<x<10
-                      will suffice.
-        @return: 2D point along the anim curve, the x will be the frame , the y the value at 
-                 that frame
-        """
-        t = [ u**2,u,1.0]
-        
-        p1,p2,p3,p4 = self.get_tangent_points(frame);
-        pp1 = [p2[0]-p1[0],p2[1]-p1[1]]
-        pp2 = [p3[0]-p2[0],p3[1]-p2[1]]
-        pp3 = [p4[0]-p3[0],p4[1]-p3[1]]
-        
-        finalX =1.0*pp1[0]*((1.0-u)**2) + 2*pp2[0]*(1-u)*u + 2*pp3[0]*(u**2)
-        finalY =1.0*pp1[1]*((1.0-u)**2) + 2*pp2[1]*(1-u)*u + 1*pp3[1]*(u**2)
-
-        return finalX, finalY
 
 
     def serialize(self, path):
