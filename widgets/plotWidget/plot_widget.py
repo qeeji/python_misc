@@ -6,7 +6,7 @@ Created on Oct 10, 2013
 
 from PySide import QtGui , QtCore
 
-from Shiboken import shiboken
+import shiboken
 import math
 
 from colorWidget import ColorWidget

@@ -2,67 +2,32 @@ from maya import cmds
 
 import math
 
-"""
-with debugUtilities.Timer("full anim", VERBOSE_TIMER) as t: 
-    p = modelPoseHandler.modelPoseHandler(None,None,"test",None)
-    ns= "Master_AM01_Anim:"
-    cmds.select("Master_AM01_Anim:fk_c_head_anim")
-    with debugUtilities.Timer("get anim data", VERBOSE_TIMER) as t: 
-        p.PoseData_FromModelAnim(ns,None,1,27)
-    with debugUtilities.Timer("store anim ", VERBOSE_TIMER) as t: 
-        p.PoseData_ToFile(path,False,ns, True)
-
-with debugUtilities.Timer("store anim js", VERBOSE_TIMER) as t: 
-    p.PoseData_ToFileJS(path+"JS",False,ns)
-
-s = main_Pose.SettingsHolder()
-s.MoveRelativeToCog =False
-data =RigTools.GetFilterdBonesList2(ns)
-data["namespace"]=ns
-#data = RigTools.AnimData(data)
-p.filePath = path
-with debugUtilities.Timer("reading  anim", VERBOSE_TIMER) as t: 
-    full_data = p.GetBonePoseData_FromFile2( s, data)
-p.settings=s
-with debugUtilities.Timer("reading  anim", VERBOSE_TIMER) as t: 
-    p.PoseData_ToModel(ns, s)
-print "done"
-"""
 from maya.api import OpenMaya
+from maya.api import OpenMayaAnim
 
-def dot (v1,v2):
-    return sum([a*b for a,b in zip(v1,v2)])
 
+###############################################
+#PART 1 
+###############################################
 obj = "locator1"
 attr = "translateY"
 
-time = OpenMaya.MTime(1.0,OpenMaya.MTime.kSeconds)
-conversionFactor= time.asUnits(OpenMaya.MTime.uiUnit())
-"""
-#querying the tangents
+#lets give it a try
 outx = cmds.keyTangent(obj,attribute=attr, q=1, ox=1)[1]
 outy  =cmds.keyTangent(obj,attribute=attr, q=1, oy=1)[1]
-inx = cmds.keyTangent(obj,attribute=attr, q=1, ix=1)[2]
-iny  =cmds.keyTangent(obj,attribute=attr, q=1, iy=1)[2]
+inx = cmds.keyTangent(obj,attribute=attr, q=1, ix=1) [1]
+iny  =cmds.keyTangent(obj,attribute=attr, q=1, iy=1) [1]
 
-t2 = [outx,outy]
-t3 = [inx, iny]
-print "legacy", t2,t3
+#set them back in
+cmds.keyTangent(obj,attribute=attr, time=(3,3), iy=iny) 
+cmds.keyTangent(obj,attribute=attr, time=(3,3), ix=inx) 
+cmds.keyTangent(obj,attribute=attr, time=(3,3), oy=outy) 
+cmds.keyTangent(obj,attribute=attr, time=(3,3), ox=outx) 
 
-t2[0]*=(conversionFactor)
-t3[0]*=(conversionFactor)
-"""
-#matrix bases with pascal triangle degree 3
-m1 = [-1.0,3.0,-3.0,1.0]
-m2 = [3.0,-6.0,3.0,0.0]
-m3 = [-3.0,3.0,0.0,0.0]
-m4 = [1.0,0.0,0.0,0.0]
 
-#matrix bases with pascal triangle degree 2
-mm1 =[1,-2,1]
-mm2 =[-2,2,0]
-mm3 =[1,0,0]
-
+#cmds.keyTangent(obj,attribute=attr, time=(3,3), oy=tanV[1]) 
+#cool let s now try to compute the tangents ourself!
+#using approximation
 #utils functions
 def get_MObject( object_name):
     '''
@@ -87,7 +52,6 @@ def get_MObject( object_name):
         return selectionList.getDependNode(0)
 
 def __get_anim_crv(obj,attr):
-    
     node_obj = get_MObject(obj)
     dep_data = OpenMaya.MFnDependencyNode(node_obj)
     
@@ -100,14 +64,81 @@ def __get_anim_crv(obj,attr):
     #and animation curve
     node = nodes[0].node()
     if (node.hasFn(OpenMaya.MFn.kAnimCurve)):
-        return OpenMaya.MFnDependencyNode(node).name() 
+        return  node
+
+
+node =  __get_anim_crv(obj,attr)
+anim =OpenMayaAnim.MFnAnimCurve(node)
+
+x1 = 3.0
+x2 = 3.002
+t = OpenMaya.MTime(x1)
+t2 = OpenMaya.MTime(x2)
+y1 = anim.evaluate(t)
+y2 = anim.evaluate(t2)
+#so we have a vector, namely v1= (x,y) , v2 = (x2,y2)
+# we can extract the tangent vector by doing tanV = v2 -v1
+
+tanV = [x2-x1, y2-y1]
+
+#lets try to set it to maya
+#cmds.keyTangent(obj,attribute=attr, time=(3,3), ox=tanV[0]) 
+#cmds.keyTangent(obj,attribute=attr, time=(3,3), oy=tanV[1]) 
+
+#no luck tangent is wrong lets try to extract the angle and set it?
+angle = math.atan(tanV[1]/(tanV[0]*2))
+
+angleDeg = angle *180.0 / math.pi
+print angle, angleDeg
+
+maya_angle = cmds.keyTangent(obj,attribute=attr,q=1, time=(3,3), outAngle=1) 
+print "maya angle ", maya_angle, "angle",angleDeg
+#set the angle
+#cmds.keyTangent(obj,attribute=attr, time=(3,3), outAngle=angleDeg) 
+
+#the angle works, is not surper precise but works, so why my tangents don't
+
+#found in a sample code
+time = OpenMaya.MTime(1.0,OpenMaya.MTime.kSeconds)
+conversionFactor= time.asUnits(OpenMaya.MTime.uiUnit())
+
+tanV[0]= (tanV[0]/conversionFactor)*2
+
+#not needed but usefull to compare with maya
+length  = math.sqrt(tanV[0]**2 + tanV[1]**2)
+tanV[0]/=length
+tanV[1]/=length
+
+print "maya tans",outx,outy, "tans", tanV
+
+cmds.keyTangent(obj,attribute=attr, time=(3,3), ox=tanV[0]) 
+cmds.keyTangent(obj,attribute=attr, time=(3,3), oy=tanV[1]) 
+
+
+###############################################
+#PART 2
+###############################################
+"""
+
+def dot (v1,v2):
+    return sum([a*b for a,b in zip(v1,v2)])
+
+#matrix bases with pascal triangle degree 3
+m1 = [-1.0,3.0,-3.0,1.0]
+m2 = [3.0,-6.0,3.0,0.0]
+m3 = [-3.0,3.0,0.0,0.0]
+m4 = [1.0,0.0,0.0,0.0]
+
+#matrix bases with pascal triangle degree 2
+mm1 =[1,-2,1]
+mm2 =[-2,2,0]
+mm3 =[1,0,0]
+
     
 
 def __find_frame_idx(obj,attr,frame):
     
-    anim_crv = __get_anim_crv(obj,attr) +  ".keyTimeValue"
-    keys = [cmds.getAttr(anim_crv + "[{i}].keyTime".format(i=i)) 
-            for i in cmds.getAttr(anim_crv ,mi=1)]
+    keys= cmds.keyframe(obj, attribute= attr, query=True,timeChange=True)
     return keys.index(frame)
      
 
@@ -276,5 +307,5 @@ def  bezier3(t,w):
   mt3 = mt2 * mt
   return w[0][0]*mt3 + 3*w[1][0]*mt2*t + 3*w[2][0]*mt*t2 + w[3][0]*t3,\
   w[0][1]*mt3 + 3*w[1][1]*mt2*t + 3*w[2][1]*mt*t2 + w[3][1]*t3
-
+"""
 
