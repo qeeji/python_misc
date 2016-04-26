@@ -6,12 +6,11 @@ from maya.api import OpenMaya
 from maya.api import OpenMayaAnim
 
 
+obj = "locator1"
+attr = "translateY"
 ###############################################
 #PART 1 
 ###############################################
-obj = "locator1"
-attr = "translateY"
-
 #lets give it a try
 outx = cmds.keyTangent(obj,attribute=attr, q=1, ox=1)[1]
 outy  =cmds.keyTangent(obj,attribute=attr, q=1, oy=1)[1]
@@ -71,26 +70,38 @@ node =  __get_anim_crv(obj,attr)
 anim =OpenMayaAnim.MFnAnimCurve(node)
 
 x1 = 3.0
-x2 = 3.002
+x2 = 3.002 
 t = OpenMaya.MTime(x1)
 t2 = OpenMaya.MTime(x2)
 y1 = anim.evaluate(t)
 y2 = anim.evaluate(t2)
 #so we have a vector, namely v1= (x,y) , v2 = (x2,y2)
 # we can extract the tangent vector by doing tanV = v2 -v1
-
+print y2
+time = OpenMaya.MTime(1.0,OpenMaya.MTime.kSeconds)
+conversionFactor= time.asUnits(OpenMaya.MTime.uiUnit())
 tanV = [x2-x1, y2-y1]
+print tanV
 
 #lets try to set it to maya
 #cmds.keyTangent(obj,attribute=attr, time=(3,3), ox=tanV[0]) 
 #cmds.keyTangent(obj,attribute=attr, time=(3,3), oy=tanV[1]) 
 
+#var represeting the delta time between the two keys
+frame_delta =3
 #no luck tangent is wrong lets try to extract the angle and set it?
-angle = math.atan(tanV[1]/(tanV[0]*2))
+angle = math.atan(tanV[1]/(tanV[0])/2.0)
+#angle = math.atan(tanV[1]/(tanV[0]))
 
 angleDeg = angle *180.0 / math.pi
-print angle, angleDeg
-
+maya_angle = cmds.keyTangent(obj,attribute=attr,q=1, time=(3,3), outAngle=1) 
+length = math.sqrt(tanV[0]**2 + tanV[1]**2)
+tanV[0] /= length
+tanV[1] /= length
+print tanV, outx* conversionFactor,outy
+print tanV[1]/tanV[0],math.atan(outy/ (outx*conversionFactor))*180.0/math.pi
+print angle, angleDeg, maya_angle
+"""
 maya_angle = cmds.keyTangent(obj,attribute=attr,q=1, time=(3,3), outAngle=1) 
 print "maya angle ", maya_angle, "angle",angleDeg
 #set the angle
@@ -102,7 +113,7 @@ print "maya angle ", maya_angle, "angle",angleDeg
 time = OpenMaya.MTime(1.0,OpenMaya.MTime.kSeconds)
 conversionFactor= time.asUnits(OpenMaya.MTime.uiUnit())
 
-tanV[0]= (tanV[0]/conversionFactor)*2
+tanV[0]= (tanV[0]/conversionFactor)*frame_delta
 
 #not needed but usefull to compare with maya
 length  = math.sqrt(tanV[0]**2 + tanV[1]**2)
@@ -113,13 +124,17 @@ print "maya tans",outx,outy, "tans", tanV
 
 cmds.keyTangent(obj,attribute=attr, time=(3,3), ox=tanV[0]) 
 cmds.keyTangent(obj,attribute=attr, time=(3,3), oy=tanV[1]) 
-
+"""
 
 ###############################################
 #PART 2
 ###############################################
-"""
 
+"""
+time = OpenMaya.MTime(1.0,OpenMaya.MTime.kSeconds)
+conversionFactor= time.asUnits(OpenMaya.MTime.uiUnit())
+
+#dot product util func
 def dot (v1,v2):
     return sum([a*b for a,b in zip(v1,v2)])
 
@@ -134,14 +149,14 @@ mm1 =[1,-2,1]
 mm2 =[-2,2,0]
 mm3 =[1,0,0]
 
-    
-
+#find frame index in keyframe array    
 def __find_frame_idx(obj,attr,frame):
     
     keys= cmds.keyframe(obj, attribute= attr, query=True,timeChange=True)
     return keys.index(frame)
      
-
+#function to extract the tangent points plus start end points
+#from a two keyframes pair
 def get_tangent_points(obj,attr,frame1,frame2):
     ##this work on the assumption there is a keyframe at current time
     f1Idx = __find_frame_idx(obj,attr,frame1)
@@ -207,6 +222,7 @@ def evaluate(u, points):
                 (basis[3] * p4[1]) )
     return finalX, finalY
 
+
 def evaluate_derivative(u, points):
     t = [ u**2,u,1.0]
     
@@ -270,14 +286,13 @@ def value_at_frame(frame,points):
     return y 
 
 
+#finding the points 
 points = get_tangent_points(obj,attr,3,5)
-value = value_at_frame(4.34445,points)
-value = value_at_frame(5,points)
 
 
 
 step = 1.0/99.0
-crv =[]
+val=[]
 d1 = []
 for i in range(100):
     #curve 
@@ -286,7 +301,7 @@ for i in range(100):
     l= cmds.spaceLocator()[0]
     cmds.setAttr(l + '.t' , x,y,-3)
     cmds.setAttr(l +'.localScale',0.1,0.1,0.1)
-    crv.append(l)
+    val.append(l)
 
     dup = cmds.duplicate("curve1")[0]
     angle = math.atan(dy)*180.0 /math.pi
@@ -295,9 +310,8 @@ for i in range(100):
     d1.append(dup)
 
 
-cmds.group(d1)
-cmds.group(crv)
-
+cmds.group(d1, n = "derivatives1")
+cmds.group(val, n = "val1")
 
 def  bezier3(t,w):
   t2 = t * t
@@ -307,5 +321,29 @@ def  bezier3(t,w):
   mt3 = mt2 * mt
   return w[0][0]*mt3 + 3*w[1][0]*mt2*t + 3*w[2][0]*mt*t2 + w[3][0]*t3,\
   w[0][1]*mt3 + 3*w[1][1]*mt2*t + 3*w[2][1]*mt*t2 + w[3][1]*t3
+
+val2 = []
+d2 = []
+
+for i in range(100):
+    #curve 
+    x,y = bezier3(step*float(i),points)
+    dx,dy = evaluate_derivative2(step*float(i),points)
+    l= cmds.spaceLocator()[0]
+    cmds.setAttr(l + '.t' , x,y,-3)
+    cmds.setAttr(l +'.localScale',0.1,0.1,0.1)
+    val2.append(l)
+
+    dup = cmds.duplicate("curve1")[0]
+    angle = math.atan(dy)*180.0 /math.pi
+    cmds.setAttr(dup +'.t',x,y,-3)
+    cmds.setAttr(dup +'.rz',angle)
+    d2.append(dup)
+
+cmds.group(d2, n = "derivatives2")
+cmds.group(val2, n = "val2")
+
+value = value_at_frame(4.34445,points)
+value = value_at_frame(5,points)
 """
 
