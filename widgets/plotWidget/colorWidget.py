@@ -2,7 +2,6 @@
 
 from PySide import QtGui , QtCore
 
-import shiboken
 import math
 
 

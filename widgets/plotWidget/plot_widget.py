@@ -6,7 +6,6 @@ Created on Oct 10, 2013
 
 from PySide import QtGui , QtCore
 
-import shiboken
 import math
 
 from colorWidget import ColorWidget
@@ -511,7 +510,7 @@ class PlotWidget(QtGui.QWidget):
         #looping the points and drawing them, there might be a method
         #to draw all at once maybe?
         for p in points :
-            qp.drawPoint( self.__fixQPoint(p))
+            qp.drawPoint( self.fixQPoint(p))
     
     def __drawLines(self , qp, points) :
         
@@ -524,9 +523,9 @@ class PlotWidget(QtGui.QWidget):
         qp.setPen(pen)
         
         for i,p in enumerate(points[:-1]) :
-            qp.drawLine( self.__fixQPoint(p) , self.__fixQPoint(points[i+1]) )
+            qp.drawLine( self.fixQPoint(p) , self.fixQPoint(points[i+1]) )
                 
-    def __fixQPoint(self , point ):
+    def fixQPoint(self , point ):
         '''
         This procedure adds scale and pan to the computed point
         @param point :  float2 , the point
