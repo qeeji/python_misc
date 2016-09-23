@@ -1,0 +1,252 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	2	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+addNode	.\graphs\quickFind.py	/^    def addNode(self, nodeName = None):$/;"	member	line:29	class:QFTree	access:public
+addNode	.\graphs\unionFind.py	/^    def addNode(self, nodeName = None):$/;"	member	line:28	class:UFTree	access:public
+addNode	.\graphs\wcUnionFind.py	/^    def addNode(self, nodeName = None):$/;"	member	line:29	class:WCUFTree	access:public
+addNode	.\graphs\wUnionFind.py	/^    def addNode(self, nodeName = None):$/;"	member	line:29	class:WUFTree	access:public
+add_points	.\widgets\plotWidget\plot_widget.py	/^    def add_points(self, points):$/;"	member	line:196	class:PlotWidget	access:public
+angle	.\math\maya_curve\run.py	/^    angle = math.atan(dy)*180.0 \/math.pi$/;"	variable	line:261
+app	.\widgets\plotWidget\taylor_demo.py	/^    app =QtGui.QApplication(sys.argv)$/;"	variable	line:89	class:TaylorPlotter
+attr	.\math\maya_curve\run.py	/^attr = "translateY"$/;"	variable	line:37
+autoinit	.\image_processing\pycuda_greyscale.py	/^import pycuda.autoinit$/;"	namespace	line:6
+basis	.\math\bezier_curve.py	/^	def basis(self , order =4, index = 0,param = 0.5  ):$/;"	member	line:243	class:BSplineCurve	access:public
+berstainPolinomial	.\math\bezier_curve.py	/^	def berstainPolinomial(self , param = 0.5 , index =0 ) :$/;"	member	line:57	class:BezierCurve	access:public
+bezier3	.\math\maya_curve\run.py	/^def  bezier3(t,w):$/;"	function	line:271	access:public
+BezierCurve	.\math\bezier_curve.py	/^class BezierCurve(object) :$/;"	class	line:8	inherits:object
+blackWhite	.\image_processing\pycuda_greyscale.py	/^def blackWhite(inPath , outPath , mode = "luminosity",log = 0):$/;"	function	line:10	access:public
+BSplineCurve	.\math\bezier_curve.py	/^class BSplineCurve(object) :$/;"	class	line:122	inherits:object
+clear_data	.\widgets\plotWidget\plot_widget.py	/^    def clear_data(self): $/;"	member	line:189	class:PlotWidget	access:public
+cmds	.\math\maya_curve\run.py	/^from maya import cmds$/;"	namespace	line:1
+color	.\widgets\plotWidget\colorWidget.py	/^    def color (self ,color = []):$/;"	member	line:31	class:ColorWidget	access:public
+color	.\widgets\plotWidget\colorWidget.py	/^    def color(self):$/;"	member	line:26	class:ColorWidget	access:public
+colorChangedSignal	.\widgets\plotWidget\colorWidget.py	/^    colorChangedSignal = QtCore.Signal(int , int ,int)$/;"	variable	line:13	class:ColorWidget
+ColorWidget	.\widgets\plotWidget\colorWidget.py	/^class ColorWidget(QtGui.QWidget):$/;"	class	line:11	inherits:QtGui.QWidget
+ColorWidget	.\widgets\plotWidget\plot_widget.py	/^from colorWidget import ColorWidget$/;"	namespace	line:12
+computeUniformKnots	.\math\bezier_curve.py	/^	def computeUniformKnots(self):$/;"	member	line:191	class:BSplineCurve	access:public
+connected	.\graphs\quickFind.py	/^    def connected(self , A , B ):$/;"	member	line:84	class:QFTree	access:public
+connected	.\graphs\unionFind.py	/^    def connected(self , A , B ):$/;"	member	line:79	class:UFTree	access:public
+connected	.\graphs\wcUnionFind.py	/^    def connected(self , A , B ):$/;"	member	line:102	class:WCUFTree	access:public
+connected	.\graphs\wUnionFind.py	/^    def connected(self , A , B ):$/;"	member	line:93	class:WUFTree	access:public
+controlPoints	.\math\bezier_curve.py	/^	def controlPoints(self):$/;"	member	line:145	class:BSplineCurve	access:public
+controlPoints	.\math\bezier_curve.py	/^	def controlPoints(self):$/;"	member	line:27	class:BezierCurve	access:public
+controlPoints	.\math\bezier_curve.py	/^	def controlPoints(self, value):$/;"	member	line:153	class:BSplineCurve	access:public
+controlPoints	.\math\bezier_curve.py	/^	def controlPoints(self, value):$/;"	member	line:35	class:BezierCurve	access:public
+conversionFactor	.\math\maya_curve\run.py	/^conversionFactor= time.asUnits(OpenMaya.MTime.uiUnit())$/;"	variable	line:40
+convertString	.\graphs\wUnionFind.py	/^def convertString(myStr):$/;"	function	line:198	access:public
+cross	.\math\vector.py	/^    def cross(self , V):$/;"	member	line:129	class:Vector	access:public
+crv	.\math\maya_curve\run.py	/^crv =[]$/;"	variable	line:249
+cuda	.\image_processing\pycuda_greyscale.py	/^import pycuda.driver as cuda$/;"	namespace	line:5
+CudablackWhite	.\image_processing\pycuda_greyscale.py	/^def CudablackWhite(inPath , outPath , mode = "luminosity" , log = 0):$/;"	function	line:56	access:public
+d1	.\math\maya_curve\run.py	/^d1 = []$/;"	variable	line:250
+degree	.\math\bezier_curve.py	/^	def degree(self):$/;"	member	line:172	class:BSplineCurve	access:public
+degree	.\math\bezier_curve.py	/^	def degree(self, value):$/;"	member	line:179	class:BSplineCurve	access:public
+derivative	.\math\bezier_curve.py	/^	def derivative (self ,param ,  index ):$/;"	member	line:75	class:BezierCurve	access:public
+desktop	.\widgets\plotWidget\taylor_demo.py	/^    desktop = QtGui.QApplication.desktop().availableGeometry(p).center();$/;"	variable	line:91	class:TaylorPlotter
+dot	.\math\maya_curve\run.py	/^def dot (v1,v2):$/;"	function	line:33	access:public
+dot	.\math\vector.py	/^    def dot(self , V):$/;"	member	line:108	class:Vector	access:public
+DrawableFunction	.\widgets\plotWidget\taylor_demo.py	/^class DrawableFunction(object):$/;"	class	line:7	inherits:object
+drawBG	.\widgets\plotWidget\colorWidget.py	/^    def drawBG(self, qp):$/;"	member	line:43	class:ColorWidget	access:public
+drawBG	.\widgets\plotWidget\plot_widget.py	/^    def drawBG(self, qp):$/;"	member	line:317	class:PlotWidget	access:public
+drawData	.\widgets\plotWidget\plot_widget.py	/^    def drawData(self,qp): $/;"	member	line:280	class:PlotWidget	access:public
+drawData	.\widgets\plotWidget\taylor_demo.py	/^    def drawData(self,qp):$/;"	member	line:62	class:TaylorPlotter	access:public
+drawGrid	.\widgets\plotWidget\plot_widget.py	/^    def drawGrid(self, qp):$/;"	member	line:361	class:PlotWidget	access:public
+drawTree	.\graphs\quickFind.py	/^    def drawTree(self , graphName = "graph"):$/;"	member	line:102	class:QFTree	access:public
+drawTree	.\graphs\unionFind.py	/^    def drawTree(self , graphName = "graph"):$/;"	member	line:120	class:UFTree	access:public
+drawTree	.\graphs\wcUnionFind.py	/^    def drawTree(self , graphName = "graph"):$/;"	member	line:150	class:WCUFTree	access:public
+drawTree	.\graphs\wUnionFind.py	/^    def drawTree(self , graphName = "graph"):$/;"	member	line:134	class:WUFTree	access:public
+dup	.\math\maya_curve\run.py	/^    dup = cmds.duplicate("curve1")[0]$/;"	variable	line:260
+DynamicNode	.\graphs\quickFind.py	/^from dynamicNode import DynamicNode$/;"	namespace	line:1
+dynamicNode	.\graphs\quickFind.py	/^import dynamicNode$/;"	namespace	line:2
+DynamicNode	.\graphs\unionFind.py	/^from dynamicNode import DynamicNode$/;"	namespace	line:1
+dynamicNode	.\graphs\unionFind.py	/^import dynamicNode$/;"	namespace	line:2
+DynamicNode	.\graphs\wcUnionFind.py	/^from dynamicNode import DynamicNode$/;"	namespace	line:1
+dynamicNode	.\graphs\wcUnionFind.py	/^import dynamicNode$/;"	namespace	line:2
+DynamicNode	.\graphs\wUnionFind.py	/^from dynamicNode import DynamicNode$/;"	namespace	line:1
+dynamicNode	.\graphs\wUnionFind.py	/^import dynamicNode$/;"	namespace	line:2
+endBackgroundColor	.\widgets\plotWidget\plot_widget.py	/^    def endBackgroundColor(self):$/;"	member	line:76	class:PlotWidget	access:public
+endBackgroundColor	.\widgets\plotWidget\plot_widget.py	/^    def endBackgroundColor(self,value):$/;"	member	line:81	class:PlotWidget	access:public
+evaluate	.\math\maya_curve\run.py	/^def evaluate(u, points):$/;"	function	line:157	access:public
+evaluate	.\widgets\plotWidget\taylor_demo.py	/^    def evaluate(self,x):$/;"	member	line:11	class:DrawableFunction	access:public
+evaluate	.\widgets\plotWidget\taylor_demo.py	/^    def evaluate(self,x):$/;"	member	line:18	class:SinFunc	access:public
+evaluate	.\widgets\plotWidget\taylor_demo.py	/^    def evaluate(self,x):$/;"	member	line:28	class:SinTaylor	access:public
+evaluate_derivative	.\math\maya_curve\run.py	/^def evaluate_derivative(u, points):$/;"	function	line:179	access:public
+evaluate_derivative2	.\math\maya_curve\run.py	/^def evaluate_derivative2(u, points):$/;"	function	line:199	access:public
+findSpan	.\math\bezier_curve.py	/^	def findSpan(self , param  ) :$/;"	member	line:218	class:BSplineCurve	access:public
+GaussianKernel	.\image_processing\gaussianStencil.py	/^class GaussianKernel(object):$/;"	class	line:4	inherits:object
+generate	.\image_processing\gaussianStencil.py	/^    def generate(self):$/;"	member	line:22	class:GaussianKernel	access:public
+generate_taylor	.\widgets\plotWidget\taylor_demo.py	/^    def generate_taylor(self, degree):$/;"	member	line:39	class:SinTaylor	access:public
+getNodeName	.\graphs\quickFind.py	/^    def getNodeName(self,index):$/;"	member	line:50	class:QFTree	access:public
+getNodeName	.\graphs\unionFind.py	/^    def getNodeName(self,index):$/;"	member	line:49	class:UFTree	access:public
+getNodeName	.\graphs\wcUnionFind.py	/^    def getNodeName(self,index):$/;"	member	line:51	class:WCUFTree	access:public
+getNodeName	.\graphs\wUnionFind.py	/^    def getNodeName(self,index):$/;"	member	line:51	class:WUFTree	access:public
+getTreeSize	.\graphs\quickFind.py	/^    def getTreeSize(self):$/;"	member	line:43	class:QFTree	access:public
+getTreeSize	.\graphs\unionFind.py	/^    def getTreeSize(self):$/;"	member	line:42	class:UFTree	access:public
+getTreeSize	.\graphs\wcUnionFind.py	/^    def getTreeSize(self):$/;"	member	line:44	class:WCUFTree	access:public
+getTreeSize	.\graphs\wUnionFind.py	/^    def getTreeSize(self):$/;"	member	line:44	class:WUFTree	access:public
+get_MObject	.\math\maya_curve\run.py	/^def get_MObject( object_name):$/;"	function	line:67	access:public
+get_tangent_points	.\math\maya_curve\run.py	/^def get_tangent_points(obj,attr,frame1,frame2):$/;"	function	line:114	access:public
+hw1	.\graphs\quickFind.py	/^def hw1():$/;"	function	line:155	access:public
+hw2	.\graphs\wUnionFind.py	/^def hw2():$/;"	function	line:208	access:public
+Image	.\image_processing\gaussianStencil.py	/^from PIL import Image$/;"	namespace	line:2
+Image	.\image_processing\pycuda_greyscale.py	/^from PIL import Image$/;"	namespace	line:2
+keyPressEvent	.\widgets\plotWidget\taylor_demo.py	/^    def keyPressEvent(self, e):$/;"	member	line:74	class:TaylorPlotter	access:public
+l	.\math\maya_curve\run.py	/^    l= cmds.spaceLocator()[0]$/;"	variable	line:255
+length	.\math\vector.py	/^    def length(self):$/;"	member	line:146	class:Vector	access:public
+lineStep	.\widgets\plotWidget\plot_widget.py	/^    def lineStep(self):$/;"	member	line:139	class:PlotWidget	access:public
+lineStep	.\widgets\plotWidget\plot_widget.py	/^    def lineStep(self,value):$/;"	member	line:143	class:PlotWidget	access:public
+log	.\image_processing\gaussianStencil.py	/^    def log(self):$/;"	member	line:59	class:GaussianKernel	access:public
+m1	.\math\maya_curve\run.py	/^m1 = [-1.0,3.0,-3.0,1.0]$/;"	variable	line:56
+m2	.\math\maya_curve\run.py	/^m2 = [3.0,-6.0,3.0,0.0]$/;"	variable	line:57
+m3	.\math\maya_curve\run.py	/^m3 = [-3.0,3.0,0.0,0.0]$/;"	variable	line:58
+m4	.\math\maya_curve\run.py	/^m4 = [1.0,0.0,0.0,0.0]$/;"	variable	line:59
+main	.\image_processing\gaussianStencil.py	/^def main():$/;"	function	line:94	access:public
+main	.\math\bezier_curve.py	/^def main():$/;"	function	line:364	access:public
+math	.\image_processing\gaussianStencil.py	/^import math$/;"	namespace	line:1
+math	.\math\bezier_curve.py	/^import math$/;"	namespace	line:5
+math	.\math\maya_curve\run.py	/^import math$/;"	namespace	line:3
+math	.\math\vector.py	/^import math$/;"	namespace	line:1
+math	.\widgets\plotWidget\colorWidget.py	/^import math$/;"	namespace	line:6
+math	.\widgets\plotWidget\plot_widget.py	/^import math$/;"	namespace	line:10
+math	.\widgets\plotWidget\plot_widget.py	/^import math$/;"	namespace	line:15
+math	.\widgets\plotWidget\taylor_demo.py	/^import math$/;"	namespace	line:1
+mm1	.\math\maya_curve\run.py	/^mm1 =[1,-2,1]$/;"	variable	line:62
+mm2	.\math\maya_curve\run.py	/^mm2 =[-2,2,0]$/;"	variable	line:63
+mm3	.\math\maya_curve\run.py	/^mm3 =[1,0,0]$/;"	variable	line:64
+mouseMoveEvent	.\widgets\plotWidget\plot_widget.py	/^    def mouseMoveEvent(self,event):$/;"	member	line:226	class:PlotWidget	access:public
+mousePressEvent	.\widgets\plotWidget\colorWidget.py	/^    def mousePressEvent(self, event):$/;"	member	line:37	class:ColorWidget	access:public
+mousePressEvent	.\widgets\plotWidget\plot_widget.py	/^    def mousePressEvent(self, event):$/;"	member	line:206	class:PlotWidget	access:public
+mouseReleaseEvent	.\widgets\plotWidget\plot_widget.py	/^    def mouseReleaseEvent(self , event):$/;"	member	line:243	class:PlotWidget	access:public
+normalize	.\math\vector.py	/^    def normalize(self):$/;"	member	line:154	class:Vector	access:public
+np	.\image_processing\gaussianStencil.py	/^import numpy as np$/;"	namespace	line:3
+numpy	.\image_processing\pycuda_greyscale.py	/^import numpy$/;"	namespace	line:8
+obj	.\math\maya_curve\run.py	/^obj = "locator1"$/;"	variable	line:36
+OpenMaya	.\math\maya_curve\run.py	/^from maya.api import OpenMaya$/;"	namespace	line:31
+OptionColorWidget	.\widgets\plotWidget\colorWidget.py	/^class OptionColorWidget(QtGui.QDialog):$/;"	class	line:94	inherits:QtGui.QDialog
+OptionColorWidget	.\widgets\plotWidget\plot_widget.py	/^from colorWidget import OptionColorWidget $/;"	namespace	line:13
+p	.\widgets\plotWidget\taylor_demo.py	/^    p = TaylorPlotter()        $/;"	variable	line:90	class:TaylorPlotter
+paintEvent	.\widgets\plotWidget\colorWidget.py	/^    def paintEvent(self, e):$/;"	member	line:58	class:ColorWidget	access:public
+paintEvent	.\widgets\plotWidget\plot_widget.py	/^    def paintEvent(self, e):$/;"	member	line:301	class:PlotWidget	access:public
+paintMode	.\widgets\plotWidget\plot_widget.py	/^    def paintMode(self):$/;"	member	line:93	class:PlotWidget	access:public
+paintMode	.\widgets\plotWidget\plot_widget.py	/^    def paintMode(self,value):$/;"	member	line:98	class:PlotWidget	access:public
+pan	.\widgets\plotWidget\plot_widget.py	/^    def pan(self):$/;"	member	line:170	class:PlotWidget	access:public
+pan	.\widgets\plotWidget\plot_widget.py	/^    def pan(self,value):$/;"	member	line:175	class:PlotWidget	access:public
+PIL	.\image_processing\pycuda_greyscale.py	/^import PIL$/;"	namespace	line:1
+PlotWidget	.\widgets\plotWidget\plot_widget.py	/^class PlotWidget(QtGui.QWidget):$/;"	class	line:17	inherits:QtGui.QWidget
+PlotWidget	.\widgets\plotWidget\taylor_demo.py	/^from plot_widget import PlotWidget$/;"	namespace	line:5
+pointOnCurve	.\math\bezier_curve.py	/^	def pointOnCurve (self ,   param) :$/;"	member	line:277	class:BSplineCurve	access:public
+pointOnCurve	.\math\bezier_curve.py	/^	def pointOnCurve( self  , param):$/;"	member	line:107	class:BezierCurve	access:public
+points	.\math\maya_curve\run.py	/^points = get_tangent_points(obj,attr,3,5)$/;"	variable	line:242
+points	.\widgets\plotWidget\taylor_demo.py	/^    points = [[x,x] for x in range(10)]$/;"	variable	line:103	class:TaylorPlotter
+popOptions	.\widgets\plotWidget\plot_widget.py	/^    def popOptions(self):$/;"	member	line:540	class:PlotWidget	access:public
+pycuda	.\image_processing\pycuda_greyscale.py	/^import pycuda.autoinit$/;"	namespace	line:6
+pycuda	.\image_processing\pycuda_greyscale.py	/^import pycuda.driver as cuda$/;"	namespace	line:5
+pydot	.\graphs\quickFind.py	/^import pydot$/;"	namespace	line:4
+pydot	.\graphs\unionFind.py	/^import pydot$/;"	namespace	line:4
+pydot	.\graphs\wcUnionFind.py	/^import pydot$/;"	namespace	line:4
+pydot	.\graphs\wUnionFind.py	/^import pydot$/;"	namespace	line:4
+QFTree	.\graphs\quickFind.py	/^class QFTree(object):$/;"	class	line:13	inherits:object
+QtCore	.\widgets\plotWidget\colorWidget.py	/^from PySide import QtGui , QtCore$/;"	namespace	line:3
+QtCore	.\widgets\plotWidget\plot_widget.py	/^from PySide import QtGui , QtCore$/;"	namespace	line:7
+QtCore	.\widgets\plotWidget\taylor_demo.py	/^from PySide import QtGui, QtCore$/;"	namespace	line:3
+QtGui	.\widgets\plotWidget\colorWidget.py	/^from PySide import QtGui , QtCore$/;"	namespace	line:3
+QtGui	.\widgets\plotWidget\plot_widget.py	/^from PySide import QtGui , QtCore$/;"	namespace	line:7
+QtGui	.\widgets\plotWidget\taylor_demo.py	/^from PySide import QtGui, QtCore$/;"	namespace	line:3
+redrawContour	.\widgets\plotWidget\plot_widget.py	/^    def redrawContour (self, qp):$/;"	member	line:346	class:PlotWidget	access:public
+resizeEvent	.\widgets\plotWidget\colorWidget.py	/^    def resizeEvent(self , event):$/;"	member	line:69	class:ColorWidget	access:public
+resizeEvent	.\widgets\plotWidget\plot_widget.py	/^    def resizeEvent(self , event):$/;"	member	line:263	class:PlotWidget	access:public
+root	.\graphs\unionFind.py	/^    def root(self,node):$/;"	member	line:97	class:UFTree	access:public
+root	.\graphs\wcUnionFind.py	/^    def root(self,node , path = 0):$/;"	member	line:120	class:WCUFTree	access:public
+root	.\graphs\wUnionFind.py	/^    def root(self,node):$/;"	member	line:111	class:WUFTree	access:public
+scale	.\widgets\plotWidget\plot_widget.py	/^    def scale(self):$/;"	member	line:154	class:PlotWidget	access:public
+scale	.\widgets\plotWidget\plot_widget.py	/^    def scale(self,value):$/;"	member	line:158	class:PlotWidget	access:public
+shiboken	.\widgets\plotWidget\colorWidget.py	/^from Shiboken import shiboken$/;"	namespace	line:5
+shiboken	.\widgets\plotWidget\plot_widget.py	/^from Shiboken import shiboken$/;"	namespace	line:9
+showAxis	.\widgets\plotWidget\plot_widget.py	/^    def showAxis(self):$/;"	member	line:109	class:PlotWidget	access:public
+showAxis	.\widgets\plotWidget\plot_widget.py	/^    def showAxis(self,value):$/;"	member	line:113	class:PlotWidget	access:public
+showGrid	.\widgets\plotWidget\plot_widget.py	/^    def showGrid(self):$/;"	member	line:124	class:PlotWidget	access:public
+showGrid	.\widgets\plotWidget\plot_widget.py	/^    def showGrid(self,value):$/;"	member	line:128	class:PlotWidget	access:public
+sinF	.\widgets\plotWidget\taylor_demo.py	/^    sinF = SinTaylor()$/;"	variable	line:98	class:TaylorPlotter
+SinFunc	.\widgets\plotWidget\taylor_demo.py	/^class SinFunc(DrawableFunction):$/;"	class	line:16	inherits:DrawableFunction
+SinTaylor	.\widgets\plotWidget\taylor_demo.py	/^class SinTaylor(DrawableFunction):$/;"	class	line:22	inherits:DrawableFunction
+SourceModule	.\image_processing\pycuda_greyscale.py	/^from pycuda.compiler import SourceModule$/;"	namespace	line:7
+startBackgroundColor	.\widgets\plotWidget\plot_widget.py	/^    def startBackgroundColor(self):$/;"	member	line:61	class:PlotWidget	access:public
+startBackgroundColor	.\widgets\plotWidget\plot_widget.py	/^    def startBackgroundColor(self,value):$/;"	member	line:66	class:PlotWidget	access:public
+step	.\math\maya_curve\run.py	/^step = 1.0\/99.0$/;"	variable	line:248
+sys	.\widgets\plotWidget\taylor_demo.py	/^import sys$/;"	namespace	line:87
+tangentOnCurve	.\math\bezier_curve.py	/^	def tangentOnCurve ( self, param , normalize = 0) :$/;"	member	line:89	class:BezierCurve	access:public
+tangentOnCurve	.\math\bezier_curve.py	/^	def tangentOnCurve(self ,param = 0.5 ,normalize = 1  ):$/;"	member	line:299	class:BSplineCurve	access:public
+TaylorPlotter	.\widgets\plotWidget\taylor_demo.py	/^class TaylorPlotter(PlotWidget):$/;"	class	line:55	inherits:PlotWidget
+test	.\graphs\quickFind.py	/^def test():$/;"	function	line:125	access:public
+test	.\graphs\unionFind.py	/^def test():$/;"	function	line:162	access:public
+test	.\graphs\wcUnionFind.py	/^def test():$/;"	function	line:192	access:public
+test	.\graphs\wUnionFind.py	/^def test():$/;"	function	line:176	access:public
+test2	.\graphs\quickFind.py	/^def test2():$/;"	function	line:137	access:public
+test2	.\graphs\unionFind.py	/^def test2():$/;"	function	line:174	access:public
+test2	.\graphs\wcUnionFind.py	/^def test2():$/;"	function	line:204	access:public
+test2	.\graphs\wUnionFind.py	/^def test2():$/;"	function	line:188	access:public
+time	.\image_processing\pycuda_greyscale.py	/^import time$/;"	namespace	line:3
+time	.\math\maya_curve\run.py	/^time = OpenMaya.MTime(1.0,OpenMaya.MTime.kSeconds)$/;"	variable	line:39
+toImage	.\image_processing\gaussianStencil.py	/^    def toImage(self, path, mult=1.0):$/;"	member	line:71	class:GaussianKernel	access:public
+UFTree	.\graphs\unionFind.py	/^class UFTree(object):$/;"	class	line:12	inherits:object
+union	.\graphs\quickFind.py	/^    def union(self, A , B):$/;"	member	line:63	class:QFTree	access:public
+union	.\graphs\unionFind.py	/^    def union(self, A , B):$/;"	member	line:62	class:UFTree	access:public
+union	.\graphs\wcUnionFind.py	/^    def union(self, A , B):$/;"	member	line:64	class:WCUFTree	access:public
+union	.\graphs\wUnionFind.py	/^    def union(self, A , B):$/;"	member	line:64	class:WUFTree	access:public
+updateEndBG	.\widgets\plotWidget\colorWidget.py	/^    def updateEndBG(self , r,g,b):$/;"	member	line:257	class:OptionColorWidget	access:public
+updateStartBG	.\widgets\plotWidget\colorWidget.py	/^    def updateStartBG(self , r,g,b):$/;"	member	line:253	class:OptionColorWidget	access:public
+value	.\math\maya_curve\run.py	/^value = value_at_frame(4.34445,points)$/;"	variable	line:243
+value	.\math\maya_curve\run.py	/^value = value_at_frame(5,points)$/;"	variable	line:244
+value_at_frame	.\math\maya_curve\run.py	/^def value_at_frame(frame,points):$/;"	function	line:212	access:public
+Vector	.\math\bezier_curve.py	/^from  vector import Vector$/;"	namespace	line:6
+Vector	.\math\vector.py	/^class Vector (object):$/;"	class	line:3	inherits:object
+WCUFTree	.\graphs\wcUnionFind.py	/^class WCUFTree(object):$/;"	class	line:12	inherits:object
+wheelEvent	.\widgets\plotWidget\plot_widget.py	/^    def wheelEvent(self , event):   $/;"	member	line:249	class:PlotWidget	access:public
+WUFTree	.\graphs\wUnionFind.py	/^class WUFTree(object):$/;"	class	line:12	inherits:object
+_encoding	.\widgets\plotWidget\colorWidget.py	/^    _encoding = QtGui.QApplication.UnicodeUTF8$/;"	variable	line:85
+_fromUtf8	.\widgets\plotWidget\colorWidget.py	/^    def _fromUtf8(s):$/;"	function	line:81	access:public
+_fromUtf8	.\widgets\plotWidget\colorWidget.py	/^    _fromUtf8 = QtCore.QString.fromUtf8$/;"	variable	line:79	class:ColorWidget
+_translate	.\widgets\plotWidget\colorWidget.py	/^    def _translate(context, text, disambig):$/;"	function	line:86	access:public
+_translate	.\widgets\plotWidget\colorWidget.py	/^    def _translate(context, text, disambig):$/;"	function	line:89	access:public
+__add__	.\math\vector.py	/^    def __add__(self  ,V):$/;"	member	line:76	class:Vector	file:	access:private
+__computeOrigin	.\widgets\plotWidget\plot_widget.py	/^    def __computeOrigin (self ):$/;"	member	line:272	class:PlotWidget	file:	access:private
+__drawLines	.\widgets\plotWidget\plot_widget.py	/^    def __drawLines(self , qp, points) :$/;"	member	line:516	class:PlotWidget	file:	access:private
+__drawNode	.\graphs\unionFind.py	/^    def __drawNode(self ,A):$/;"	member	line:143	class:UFTree	file:	access:private
+__drawNode	.\graphs\wcUnionFind.py	/^    def __drawNode(self ,A):$/;"	member	line:173	class:WCUFTree	file:	access:private
+__drawNode	.\graphs\wUnionFind.py	/^    def __drawNode(self ,A):$/;"	member	line:157	class:WUFTree	file:	access:private
+__drawPoints	.\widgets\plotWidget\plot_widget.py	/^    def __drawPoints(self ,qp,points):$/;"	member	line:502	class:PlotWidget	file:	access:private
+__eq__	.\math\vector.py	/^    def __eq__ (self , V):$/;"	member	line:51	class:Vector	file:	access:private
+__find_frame_idx	.\math\maya_curve\run.py	/^def __find_frame_idx(obj,attr,frame):$/;"	function	line:106	file:	access:private
+__fixQPoint	.\widgets\plotWidget\plot_widget.py	/^    def __fixQPoint(self , point ):$/;"	member	line:529	class:PlotWidget	file:	access:private
+__getitem__	.\math\vector.py	/^    def __getitem__ (self , index):$/;"	member	line:27	class:Vector	file:	access:private
+__get_anim_crv	.\math\maya_curve\run.py	/^def __get_anim_crv(obj,attr):$/;"	function	line:89	file:	access:private
+__init__	.\graphs\quickFind.py	/^    def __init__(self ,treeName = "tree"  ):$/;"	member	line:17	class:QFTree	access:public
+__init__	.\graphs\unionFind.py	/^    def __init__(self ,treeName = "tree"  ):$/;"	member	line:16	class:UFTree	access:public
+__init__	.\graphs\wcUnionFind.py	/^    def __init__(self ,treeName = "tree"  ):$/;"	member	line:16	class:WCUFTree	access:public
+__init__	.\graphs\wUnionFind.py	/^    def __init__(self ,treeName = "tree"  ):$/;"	member	line:16	class:WUFTree	access:public
+__init__	.\image_processing\gaussianStencil.py	/^    def __init__(self, sigma, normalize =True):$/;"	member	line:5	class:GaussianKernel	access:public
+__init__	.\math\bezier_curve.py	/^	def __init__(self  ,controlPoints = None ) :$/;"	member	line:15	class:BezierCurve	access:public
+__init__	.\math\bezier_curve.py	/^	def __init__(self  ,controlPoints = None , degree = 3  ) :$/;"	member	line:129	class:BSplineCurve	access:public
+__init__	.\math\vector.py	/^    def __init__(self, values):$/;"	member	line:18	class:Vector	access:public
+__init__	.\widgets\plotWidget\colorWidget.py	/^    def __init__(self, parent = None , color = [255,0,0]):$/;"	member	line:15	class:ColorWidget	access:public
+__init__	.\widgets\plotWidget\colorWidget.py	/^    def __init__(self,parent = None , plotter = None):$/;"	member	line:95	class:OptionColorWidget	access:public
+__init__	.\widgets\plotWidget\plot_widget.py	/^    def __init__(self,parent = None , width = 310 , heigth = 210):$/;"	member	line:18	class:PlotWidget	access:public
+__init__	.\widgets\plotWidget\taylor_demo.py	/^    def __init__(self):$/;"	member	line:23	class:SinTaylor	access:public
+__init__	.\widgets\plotWidget\taylor_demo.py	/^    def __init__(self):$/;"	member	line:56	class:TaylorPlotter	access:public
+__init__	.\widgets\plotWidget\taylor_demo.py	/^    def __init__(self):$/;"	member	line:8	class:DrawableFunction	access:public
+__len__	.\math\vector.py	/^    def __len__(self):$/;"	member	line:69	class:Vector	file:	access:private
+__mult__	.\math\vector.py	/^    def __mult__(self , V):$/;"	member	line:100	class:Vector	file:	access:private
+__neg__	.\math\vector.py	/^    def __neg__ (self):$/;"	member	line:44	class:Vector	file:	access:private
+__radd__	.\math\vector.py	/^    def __radd__(self, other):$/;"	member	line:64	class:Vector	file:	access:private
+__rmul__	.\math\vector.py	/^    def __rmul__ (self, scalar):$/;"	member	line:118	class:Vector	file:	access:private
+__setitem__	.\math\vector.py	/^    def __setitem__ (self , index , value):$/;"	member	line:35	class:Vector	file:	access:private
+__str__	.\graphs\quickFind.py	/^    def __str__(self):$/;"	member	line:99	class:QFTree	file:	access:private
+__str__	.\graphs\unionFind.py	/^    def __str__(self):$/;"	member	line:94	class:UFTree	file:	access:private
+__str__	.\graphs\wcUnionFind.py	/^    def __str__(self):$/;"	member	line:117	class:WCUFTree	file:	access:private
+__str__	.\graphs\wUnionFind.py	/^    def __str__(self):$/;"	member	line:108	class:WUFTree	file:	access:private
+__str__	.\math\vector.py	/^    def __str__(self):$/;"	member	line:94	class:Vector	file:	access:private
+__sub__	.\math\vector.py	/^    def __sub__(self ,V):$/;"	member	line:86	class:Vector	file:	access:private
+__xor__	.\math\vector.py	/^    def __xor__ (self , V):$/;"	member	line:125	class:Vector	file:	access:private

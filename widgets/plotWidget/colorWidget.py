@@ -2,7 +2,7 @@
 
 from PySide import QtGui , QtCore
 
-from Shiboken import shiboken
+import shiboken
 import math
 
 
