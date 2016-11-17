@@ -84,9 +84,20 @@ class Matrix(object):
             for sub_c in range(i+1,self.columns):
                 #print "sub sol idx",i, " ",sub_c
                 sol_vec[i] -= ( self.row_buffer[i*self.columns+sub_c] *sol_vec[sub_c])
+
+            #now that we accumulated all the values on the right hand side we are going 
+            #to divide by the coefficient of the diagonal element, giving use the final value
             sol_vec[i] /= self.row_buffer[i*self.columns + i] 
 
     def subtract_rows(self, s_idx, d_idx, ratio, sol_vec):
+        """
+        This function subtracts a row times a scalar of another row,
+        used in the gaussian eliminaton
+        @param s_idx: int, the source index, the row we will subtract from the destination
+        @param d_idx: int, the destinatnion, the row from which we will subtact the source row
+        @param ratio: float, the ration for which we will multiply the source row
+        @param sol_vec: float[] ,the vector solution we are manipulating with the matrix
+        """
         curr_row = self.get_row(d_idx) 
         piv_row = self.get_row(s_idx)
         for i in range(self.columns):
@@ -96,13 +107,26 @@ class Matrix(object):
         sol_vec[d_idx] = sol_vec[d_idx] - (sol_vec[s_idx]*ratio) 
             
     def set_row(self, idx, row):
+        """
+        This method sets the given row to the given index
+        @param idx: int, the index of the row we wish to set
+        @param row: float[], the row we need to set
+        """
         
         for c in range(self.columns):
             self.row_buffer[idx*self.columns+ c] = row[c]
     def swap_rows(self, idx_a, idx_b):
+        """
+        This method swaps two rows in place
+        @param idx_a: int, the first row to swap
+        @param idx_b: int, the second row to swap
+        """
+
+        #getting the rows, to note the data is dubplicated
         row_a = self.get_row(idx_a) 
         row_b = self.get_row(idx_b)
 
+        #setting the data back in 
         self.set_row(idx_a,row_b)
         self.set_row(idx_b,row_a)
             
